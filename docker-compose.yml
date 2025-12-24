@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: leaderelection
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  node1:
+    build: .
+    environment:
+      DATABASE_URL: "host=postgres user=postgres password=postgres dbname=leaderelection port=5432 sslmode=disable"
+      NODE_ID: "node-1"
+      NODE_PRIORITY: "100"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  node2:
+    build: .
+    environment:
+      DATABASE_URL: "host=postgres user=postgres password=postgres dbname=leaderelection port=5432 sslmode=disable"
+      NODE_ID: "node-2"
+      NODE_PRIORITY: "50"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  node3:
+    build: .
+    environment:
+      DATABASE_URL: "host=postgres user=postgres password=postgres dbname=leaderelection port=5432 sslmode=disable"
+      NODE_ID: "node-3"
+      NODE_PRIORITY: "10"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
