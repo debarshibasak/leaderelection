@@ -3,7 +3,7 @@
 # Variables
 BINARY_NAME=leaderelection
 DOCKER_IMAGE=leaderelection:latest
-MAIN_PATH=./main.go
+MAIN_PATH=./cmd/main.go
 
 # Default target
 help: ## Show this help message
