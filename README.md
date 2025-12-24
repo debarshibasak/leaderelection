@@ -11,6 +11,10 @@ A robust leader election implementation for distributed systems using PostgreSQL
 - **Graceful shutdown**: Clean node deregistration on shutdown
 - **Automatic cleanup**: Removes stale node records
 
+## Used by
+
+<img src="https://adaptive.live/adaptive-logo-light.svg" width="25%">
+
 ## Architecture
 
 The implementation uses a priority-based Bully algorithm:
